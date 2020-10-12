@@ -1,0 +1,56 @@
+#include <iostream>
+#include <string.h>
+#include <stdio.h>
+using namespace std;
+int n;
+
+struct cerc{
+    int raza;
+    int h;
+};
+struct dreptunghi{
+    int l_dr;
+    int L_dr;
+    int h;
+};
+struct patrat{
+    int l_p;
+    int h;
+};
+struct triunghi_dr{
+    int c_mica;
+    int c_mare;
+    int h;
+};
+
+char cmd[10];
+char * cuv;
+
+// tot laboratorul m-am chinuit sa-mi amintesc cum se folosea strtok-ul..
+
+int main()
+{
+    while(true)
+    {
+        gets(cmd);
+
+        cuv = strtok(cmd," ,.-");
+        cout<<cuv;
+        while (cuv != NULL)
+        {
+            cout<<cuv;
+            cuv = strtok (NULL, " ,.-");
+        }
+        //if (strcmp(cuv,"ADD")==0)
+
+        //if (strcmp(cuv,"REMOVE")==0)
+
+        //if (strcmp(cuv,"STOC")==0)
+
+        //if (strcmp(cuv,"TOTAL")==0)
+
+        //if (strcmp(cuv,"STOP")==0)
+
+    }
+    return 0;
+}
