@@ -1,0 +1,140 @@
+#include <iostream>
+#include <string.h>
+
+using namespace std;
+
+class Student{
+//
+    private:
+        const int ID_Matricol;
+        int varsta;
+        char* nume;
+        int nrNote;
+        int* note; //vector alocat static
+
+    public:
+
+        static int anCurent;  // atributul apartine clasei -> obj1 si obj2 ar avea acleasi anCurent
+        static void mesaj(){
+            cout<<"Bine ati venit studenti de anul "<<anCurent;
+        }
+
+        Student():ID_Matricol(00000){
+            this->varsta = 0;
+            this->nume= new char[strlen("Anonim")+1];
+            strcpy(this->nume,"Anonim");
+        }
+
+        Student(int id,int varsta, char* nume, int nrNote, int * note):ID_Matricol(id){
+            this->varsta = varsta;
+
+            this->nume = new char[strlen(nume)+1];
+            strcpy(this->nume,nume);
+
+            this->nrNote=nrNote;
+
+            this->note = new int[nrNote];
+            for (int i=0; i<nrNote; i++)
+                this->note[i] = note[i];
+
+        }
+        void afisare(){
+            cout<<"Studentul " <<this->nume<<" are urmatoarele note: ";
+            for (int i=0;i<this->nrNote; i++)
+                cout<<this->note[i]<<" ";
+        }
+
+        char* getNume(){
+            return this->nume;
+        }
+
+        int* getNote(){
+            return this->note;
+        }
+
+        int getnrNote(){
+            return this->nrNote; // se prefera cu "this->"
+        }
+        int getVarsta(){
+            return this->varsta;
+        }
+        void setVarsta(int varsta){
+            this->varsta = varsta;
+        }
+        void setNume(char* a){
+            if (this->nume!=nullptr)
+                delete[] this->nume;
+            this->nume = new char [strlen(a)+1];
+            strcpy(this->nume,a);
+        }
+        void setNote(int* a, int b)
+        {
+            if (this->note!=nullptr)
+                delete[] this->note;
+            this->nrNote=b;
+            this->note = new int[b];
+
+            for (int i=0; i<b;i++)
+                this->note[i] = a[i];
+        }
+
+        float medieStudent(){
+            float medie_note;
+            for (int i=0;i<nrNote;i++)
+                medie_note+=note[i];
+            medie_note = medie_note/nrNote;
+            return medie_note;
+        }
+        ~Student(){
+            if(this->note!=nullptr)
+                delete[] this->note;
+            if(this->nume!=nullptr)
+                delete[] this->nume;
+            // se sterg doar zonele alocate dinamic
+        }
+
+    //protected:
+
+};
+
+int Student::anCurent =2 ;
+
+
+int main()
+{
+    //cout<<Student::anCurent<<"\n";
+    //Student::mesaj();
+    Student s;
+
+    char nume[]={"POO"};
+    char nume2[] = {"POO2"};
+
+    int note[]={5,6,7,8};
+    int note2[] = {4,5,6,9,10};
+    Student s2(1,3,nume,4,note);
+    s2.afisare();
+    cout<<"\n"<<s2.getNume()<<"\n";
+    s2.setNume(nume2);
+    cout<<"\n"<<s2.getNume()<<"\n";
+
+    int* notee = s2.getNote();
+    for(int i=0;i<s2.getnrNote();i++)
+        cout<<*(notee+i)<<" ";
+
+    cout<<endl;
+
+    s2.setNote(note2,5);
+    int* notee2 = s2.getNote();
+    for(int i=0;i<s2.getnrNote();i++)
+        cout<<*(notee2+i)<<" ";
+
+
+    cout<<"\n"<<"\n"<<s2.getVarsta()<<"\n";
+    s2.setVarsta(24);
+    cout<<s2.getVarsta();
+
+    cout<<"\n";
+
+    cout<<s2.medieStudent();
+    return 0;
+}
