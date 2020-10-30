@@ -1,0 +1,325 @@
+#include <iostream>
+#include <string.h>
+
+using namespace std;
+
+class Student{
+//
+    private:
+        const int ID_Matricol;
+        int varsta;
+        char* nume;
+        int nrNote;
+        int* note; //vector alocat static
+
+    public:
+
+        static int anCurent;  // atributul apartine clasei -> obj1 si obj2 ar avea acleasi anCurent
+        static void mesaj(){
+            cout<<"Bine ati venit studenti de anul "<<anCurent;
+        }
+
+        Student():ID_Matricol(00000){
+            this->varsta = 0;
+            this->nume= new char[strlen("Anonim")+1];
+            note = NULL;
+            strcpy(this->nume,"Anonim");
+        }
+
+        Student(int id,int varsta, char* nume, int nrNote, int * note):ID_Matricol(id){
+            this->varsta = varsta;
+
+            this->nume = new char[strlen(nume)+1];
+            strcpy(this->nume,nume);
+
+            this->nrNote=nrNote;
+
+            this->note = new int[nrNote];
+            for (int i=0; i<nrNote; i++)
+                this->note[i] = note[i];
+
+
+        }
+
+        Student (const Student&stud):ID_Matricol(stud.ID_Matricol){
+            this->varsta = stud.varsta;
+            this->nrNote = stud.nrNote;
+
+            this->nume = new char[strlen(stud.nume)+1];
+            strcpy(this->nume,stud.nume);
+
+            this->note = new int[stud.nrNote];
+            for (int i=0;i<stud.nrNote;i++)
+                this->note[i] = stud.note[i];
+        }
+
+        void afisare(){
+            cout<<"Studentul " <<this->nume<<" are urmatoarele note: ";
+            for (int i=0;i<this->nrNote; i++)
+                cout<<this->note[i]<<" ";
+        }
+
+        char* getNume(){
+            return this->nume;
+        }
+
+        int* getNote(){
+            return this->note;
+        }
+
+        int getnrNote(){
+            return this->nrNote; // se prefera cu "this->"
+        }
+        int getVarsta(){
+            return this->varsta;
+        }
+        void setVarsta(int varsta){
+            this->varsta = varsta;
+        }
+        void setNume(char* a){
+            if (this->nume!=nullptr)
+                delete[] this->nume;
+            this->nume = new char [strlen(a)+1];
+            strcpy(this->nume,a);
+        }
+        void setNote(int* a, int b)
+        {
+            if (this->note!=nullptr)
+                delete[] this->note;
+            this->nrNote=b;
+            this->note = new int[b];
+
+            for (int i=0; i<b;i++)
+                this->note[i] = a[i];
+        }
+
+        float medieStudent(){
+            float medie_note;
+            for (int i=0;i<nrNote;i++)
+                medie_note+=note[i];
+            medie_note = medie_note/nrNote;
+            return medie_note;
+        }
+
+        Student& operator =(const Student& stud){
+        if(this!=&stud)
+            {
+            this->varsta = stud.varsta;
+            this->nrNote = stud.nrNote;
+
+            if (this->nume != NULL)
+                delete[] this->nume;
+
+            this->nume = new char[strlen(stud.nume)+1];
+            strcpy(this->nume, stud.nume);
+
+            if(this->note!=NULL)
+                delete[] this->note;
+
+            this->note = new int[stud.nrNote];
+            for(int i=0;i<stud.nrNote;i++)
+                this->note[i] = stud.note[i];
+
+            }
+        }
+
+
+
+
+
+        void citire(){
+            char aux[100];
+
+            cout<<"\n Introduceti numele";
+            cin>>aux;
+
+            this->nume = new char[strlen(aux)+1];
+            strcpy(this->nume,aux);
+
+            cout<<"Introduceti varsta: ";
+            cin>>this->varsta;
+
+            cout<<"\nIntroduceti numarul de note ";
+
+            cin>>this->nrNote;
+
+            this->note = new int[this->nrNote];
+
+            cout<<"\nIntroduceti notele:";
+
+            for(int i=0;i<nrNote;i++)
+                cin>>this->note[i];
+        }
+
+        friend istream& operator>> (istream& in, Student& stud)
+        {
+            char aux[100];
+
+            cout<<"\n Introduceti numele";
+            in>>aux;
+
+            if(stud.nume!=NULL)
+                delete[] stud.nume;
+
+            stud.nume = new char[strlen(aux)+1];
+            strcpy(stud.nume,aux);
+
+            cout<<"Introduceti varsta";
+            in>>stud.varsta;
+
+            cout<<"\n Introduceti numarul de note ";
+            in>>stud.nrNote;
+
+            if(stud.note!=NULL)
+                delete[] stud.note;
+
+            stud.note = new int[stud.nrNote];
+            cout<<"\nIntroduceti notele:";
+            for(int i=0;i<stud.nrNote;i++)
+                in>>stud.note[i];
+
+        }
+
+
+        friend ostream& operator<< (ostream& out, const Student stud){
+
+            out<<"\n Student "<<stud.nume<<" are "<<stud.nrNote<<" note, "<<"notele:";
+
+            for(int i=0;i<stud.nrNote;i++)
+                out<<stud.note[i]<<" ";
+            out<<" are "<<stud.varsta<<" ani\n";
+
+            return out;
+        }
+
+        // op ++ pre incr
+
+        const Student operator++()
+        {
+            this->varsta++;
+            return *this; //(studentul propriu zis, doar student era adresa)
+        }
+
+        //op ++ post increment
+
+        const Student operator++(int)
+        {
+            Student aux(*this);
+
+            this->varsta++;
+
+            return aux;
+
+        }
+
+        //operator +(ob+int)
+        Student operator +(int a)
+        {
+            int note2[100];
+            if (this->note != NULL)
+            {
+                for(int i=0;i<this->nrNote;i++)
+                    note2[i] = this->note[i];
+                delete[] this->note;
+            }
+
+            this->nrNote++;
+            this->note = new int[this->nrNote];
+
+            for(int i=0;i<=this->nrNote-1;i++)
+                this->note[i] = note2[i];
+
+            this->note[this->nrNote-1] = a;
+
+            return *this;
+        }
+
+        //operator + (ob+ob)
+        Student& operator +(Student stud)
+        {
+            Student *p = new Student(*this);
+
+            char aux[100];
+            cout<<endl<<"<-"<<aux<<endl;
+
+            strcat(aux,this->nume);
+            strcat(aux,stud.nume);
+
+            delete[] p->nume;
+
+            p->nume = new char[strlen(aux)+1];
+            strcpy(p->nume,aux);
+
+            return *p;
+
+
+        }
+
+        ~Student(){
+            if(this->note!=nullptr)
+                delete[] this->note;
+            if(this->nume!=nullptr)
+                delete[] this->nume;
+            // se sterg doar zonele alocate dinamic
+        }
+
+    //protected:
+
+};
+
+int Student::anCurent =2 ;
+
+
+int main()
+{
+    //cout<<Student::anCurent<<"\n";
+    //Student::mesaj();
+
+
+    char nume1[] ={"Andrei"};
+    int note[] ={10,9,9,8};
+
+    Student s1(100,20,nume1,4,note);
+
+    Student s2(s1);
+
+    Student s3;
+    //s2.afisare();
+
+    /*cout<<endl<<s2<<endl;
+    cout<<"CEVA";
+    cout<<s3;
+
+    int i=4;
+    cout<<i;
+    //op =
+
+    /*Student s4,s6;
+    s4 = s1;
+    s4.afisare();*/
+
+
+    Student s7;
+    /*cin>>s7;
+
+    cout<<s7<<endl;
+    cout<<s7.getVarsta()<<endl;
+    ++s7;
+    cout<<s7.getVarsta()<<endl;
+    s7++;
+    cout<<s7.getVarsta()<<endl;
+
+    //operatir +
+
+    s7 =s7+10;
+
+    cout<<s7;*/
+
+    //operaotr + ob+ob
+
+    s3 = s1+s2+s1;
+
+    cout<<s3;
+
+    return 0;
+}
