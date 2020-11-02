@@ -1,0 +1,148 @@
+#include <iostream>
+#include <string.h>
+
+using namespace std;
+
+int nrDecoratiuni = 0;
+
+class Decoratiune
+{
+    private:
+        char* nume;
+        int pret;
+    public:
+        Decoratiune(){
+            char dec[] = {"decoratiune1"};
+
+            this->nume = new char[strlen(dec)+1];
+            strcpy(this->nume,dec);
+
+
+            this->pret=10;
+        };
+        char* getNume(){return this->nume;}
+        int getPret(){return this->pret;}
+
+
+};
+
+class ListaProduse
+{
+    private:
+        string decoratiuni[100];
+        int* preturi;
+
+
+    public:
+        ListaProduse(){
+
+
+
+
+
+        }
+        ListaProduse& operator +(Decoratiune a)
+        {
+
+            if(nrDecoratiuni==0)
+            {
+                nrDecoratiuni++;
+                this->preturi = new int[nrDecoratiuni];
+
+                for(int i=0;i<nrDecoratiuni;i++)
+                    {this->preturi[i] = a.getPret();
+                    this->decoratiuni[i] = a.getNume();
+                    }
+
+            }
+            else{
+                int aux[100];
+
+                for (int i=0;i<nrDecoratiuni;i++)
+                    aux[i] = this->preturi[i];
+
+                delete[] preturi;
+
+                nrDecoratiuni++;
+
+                this->decoratiuni[nrDecoratiuni-1] = a.getNume();
+                preturi = new int[nrDecoratiuni];
+
+                for (int i=0;i<nrDecoratiuni;i++)
+                    this->preturi[i] = aux[i];
+
+                this->preturi[nrDecoratiuni-1] = a.getPret();
+
+                for (int i=0;i<nrDecoratiuni;i++)
+                    cout<<preturi[i]<<" ";
+                }
+            return *this;
+
+
+        }
+        friend ostream& operator<< (ostream& out, const ListaProduse lp){
+
+
+            cout<<"\n\n";
+            for(int i=0;i<nrDecoratiuni;i++)
+                out<<"->"<<lp.preturi[i]<<" "<<lp.decoratiuni[i]<<endl;
+            cout<<"\n\n";
+
+            return out;
+        }
+
+        string operator [](int index){
+
+        if(index<nrDecoratiuni && index>0)
+        {
+            return this->decoratiuni[index];
+
+        }
+        else cout<<"Index invalid";
+        }
+
+        int pret()
+        {
+            int medie=0;
+            for (int i=0;i<nrDecoratiuni;i++)
+                medie+=this->preturi[i];
+
+            medie = (float)(medie/nrDecoratiuni);
+            return medie;
+        }
+
+        /*void remove(int i)
+
+        {
+            //copiem in 2 aux lista de preturi lsita de decoratiuni, golim decoratiuni si preturi, si copiem inapoi printr un for ce am pus in aux uri sarind peste
+            //pasul i primit ca parametru
+        }*/
+};
+
+
+
+int main()
+{
+    Decoratiune a;
+    cout<<a.getNume()<<"\n"<<a.getPret()<<"\n\n";
+
+    ListaProduse b;
+
+    b = b+a;
+    b = b+a;
+
+    cout<<b;
+
+    cout<<b[1];
+
+    cout<<"\n\n";
+
+    //cout<<b[1].pret();
+
+    cout<<b.pret();
+
+
+
+
+    return 0;
+}
