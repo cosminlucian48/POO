@@ -1,0 +1,179 @@
+#include <iostream>
+#include <string.h>
+
+using namespace std;
+class Persoana{
+private:
+    string nume;
+    char* prenume;
+    int varsta;
+public:
+    Persoana()
+    {
+        nume = "Anonim";
+        this->prenume = new char [strlen("Anonim")+1];
+        strcpy(this->prenume, " Anonim");
+        this->varsta = 0;
+    }
+
+    Persoana(string nume, char* prenume, int varsta)
+    {
+        this->nume = nume;
+        this->prenume = new char[strlen(prenume)+1];
+        strcpy(this->prenume,prenume);
+        this->varsta = varsta;
+    }
+    Persoana(const Persoana& p){
+    this->nume = p.nume;
+    this->varsta = p.varsta;
+
+    this->prenume = new char[strlen(p.prenume)+1];
+    strcpy(this->prenume,p.prenume);
+    }
+    void afisare()
+    {
+        cout<<this->nume<<" "<<this->prenume<<" "<<this->varsta;
+    }
+
+    Persoana& operator = (const Persoana&p){
+        if(this!=&p)
+        {
+            this->nume = p.nume;
+            if(this->prenume!=NULL)
+                delete[] this->prenume;
+            this->prenume = new char[strlen(p.prenume)+1];
+            strcpy(this->prenume,p.prenume);
+            this->varsta = p.varsta;
+        }
+        return *this;
+    }
+    friend ostream& operator<<(ostream& out, const Persoana& p)
+    {
+        out<<p.nume<<" "<<p.prenume<<" "<<p.varsta;
+        return out;
+    }
+    friend istream& operator>>(istream& in, Persoana& p)
+    {
+        cout<<"Numele este: ";
+        in>>p.nume;
+        cout<<"Prenumele este: ";
+        char buffer[100];
+        in>>buffer;
+
+        if(p.prenume !=NULL)
+            delete[] p.prenume;
+        p.prenume = new char[strlen(buffer)+1];
+        strcpy(p.prenume,buffer);
+
+        cout<<"Varsta este: ";
+        in>>p.varsta;
+
+        return in;
+    }
+    bool operator <(const Persoana& p1)
+    {
+        if(this->varsta<p1.varsta)
+            return true;
+        return false;
+    }
+};
+
+class Student:public Persoana{
+private:
+    string facultate;
+public:
+    Student():Persoana(){
+
+        this->facultate = "Anonima";
+    }
+    Student(string nume, char* prenume, int varsta, string facultate):Persoana(nume,prenume,varsta)
+    {
+        this->facultate= facultate;
+    }
+    Student(Persoana p1, string facultate):Persoana(p1){
+    this->facultate = facultate;
+    }
+    Student(const Student &s):Persoana(s){
+        this->facultate = s.facultate;
+    }
+
+    void afisare()
+    {
+        Persoana::afisare();
+        cout<<" "<<this->facultate;
+    }
+    void afisareFac()
+    {
+        cout<<this->facultate;
+    }
+
+    Student& operator = (const Student& s){
+        if(this!=&s){
+            Persoana::operator=(s);
+            this->facultate = s.facultate;
+        }
+        return *this;
+    }
+    friend ostream& operator<<(ostream& out, const Student& s)
+    {
+        out<<(Persoana&)s;
+        out<<" "<<s.facultate;
+    }
+
+    friend istream & operator >>(istream & in, Student &s){
+        in>>(Persoana&)s;
+        cout<<"Introduceti fac. : ";
+        in>>s.facultate;
+        return in;
+    }
+    bool operator <(Student p1)
+    {
+        if(5<7)
+            return true;
+        return false;
+    }
+};
+
+int main()
+{
+    char prenume[] = {"Edi"};
+
+    Persoana p1;
+    p1.afisare();
+    Student s1;
+    cout<<"\n";
+    //s1.afisare();
+
+    Persoana p2("Szmeteanca", prenume,23);
+    //p2.afisare();
+
+    Student s2("Szmenteanca2", prenume, 23,"mate");
+    cout<<"\n";
+    //s2.afisare();
+    cout<<"\n";
+    Student s3(s2);
+    //s3.afisare();
+
+    Student s4(p2,"Mateee");
+    cout<<"\n";
+    s4.afisare();
+
+    cout<<"\n";
+    Student s5;
+
+    s5=s4;
+
+    s5.afisare();
+
+    cout<<"\n";
+    Student s6;
+    cin>>s6;
+    cout<<"\n";
+    cout<<s6;
+    cout<<"\n";
+    if(s1<s2)
+        cout<<"da";
+    else cout<<"Nu";
+
+    return 0;
+}
