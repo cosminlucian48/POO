@@ -1,0 +1,143 @@
+#include <iostream>
+
+using namespace std;
+class Persoana
+{
+private:
+    string nume;
+    string CNP;
+public:
+    Persoana()
+    {
+        nume="Anonim";
+        CNP="NULL";
+    }
+    Persoana(string nume,string CNP)
+    {
+        this->nume = nume;
+        this->CNP = CNP;
+    }
+    Persoana(const Persoana& p)
+    {
+        this->nume = p.nume;
+        this->CNP = p.CNP;
+    }
+    void afisare()
+    {
+        cout<<this->nume<<" cu CNP: "<<this->CNP;
+    }
+    Persoana& operator = (const Persoana&p)
+    {
+        if(this!=&p)
+        {
+            this->nume = p.nume;
+            this->CNP = p.CNP;
+        }
+        return *this;
+    }
+
+    friend ostream& operator<<(ostream& out, const Persoana& p)
+    {
+        out<<p.nume<<" cu CNP: "<<p.CNP;
+        return out;
+    }
+    friend istream& operator>>(istream& in, Persoana& p)
+    {
+        cout<<"Numele: ";
+        in>>p.nume;
+        cout<<"CNP: ";
+        in>>p.CNP;
+        return in;
+    }
+
+};
+
+class Student:public Persoana
+{
+private:
+    string facultate;
+    bool buget;
+    int nrNote;
+    int* note;
+
+
+public:
+    float medie()
+    {
+        float nr = 0;
+        for (int i=0;i<nrNote;i++)
+            nr+=this->note[i];
+        nr=nr/nrNote;
+        return nr;
+    }
+    Student():Persoana()
+    {
+        facultate = "none";
+        buget = false;
+        nrNote = 0;
+        note=NULL;
+    }
+    Student(string nume, string CNP,string facultate, bool buget, int nrNote, int* note):Persoana(nume,CNP)
+    {
+        this->buget = buget;
+        this->nrNote = nrNote;
+        this->facultate = facultate;
+
+        this->note = new int[nrNote];
+            for (int i=0; i<nrNote; i++)
+                this->note[i] = note[i];
+    }
+    Student(const Student &s):Persoana(s){
+        this->buget = buget;
+        this->nrNote = nrNote;
+        this->facultate = facultate;
+
+        this->note = new int[nrNote];
+            for (int i=0; i<nrNote; i++)
+                this->note[i] = note[i];
+    }
+    friend ostream& operator<<(ostream& out, const Student& s)
+    {
+        out<<(Persoana&)s;
+        out<<" "<<s.facultate<<" "<<"buget: "<<s.buget<<"\n"<<"Are "<<s.nrNote<<" note: ";
+        for (int i=0; i<s.nrNote; i++)
+                cout<<s.note[i]<<" ";
+        out<<"Media: ";
+        float nr = 0;
+        for (int i=0;i<s.nrNote;i++)
+            nr+=s.note[i];
+        nr=nr/s.nrNote;
+
+        out<<nr;
+    }
+    friend istream & operator >>(istream & in, Student &s){
+        in>>(Persoana&)s;
+        cout<<"Introduceti fac. : ";
+        in>>s.facultate;
+        cout<<"buget: ";
+        in>>s.buget;
+        cout<<"nrNote: ";
+        in>>s.nrNote;
+        if(s.note!=NULL)
+                delete[] s.note;
+
+        s.note = new int[s.nrNote];
+        cout<<"\nIntroduceti notele: ";
+        for(int i=0;i<s.nrNote;i++)
+            in>>s.note[i];
+        return in;
+
+    }
+
+};
+
+int main()
+{
+
+
+    Persoana p1("cosmin","123");
+    Student s1;
+    cin>>s1;
+    cout<<s1;
+    return 0;
+}
