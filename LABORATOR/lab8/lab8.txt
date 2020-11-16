@@ -1,0 +1,143 @@
+#include <iostream>
+
+using namespace std;
+class Produs
+{
+private:
+    string nume;
+
+protected:
+    float pretBrut;
+
+public:
+    void afisareBrand()
+    {
+        cout<<"Este un produs din gama EDI.SRL";
+    }
+    virtual float calcPret()=0;
+
+    friend ostream& operator<<(ostream& out, const Produs& p)
+    {
+        out<<p.nume;
+        return out;
+    }
+
+    friend istream& operator>>(istream& in, Produs&p)
+    {
+        cout<<"Numele este: ";
+        in>>p.nume;
+        cout<<"Pretul brut este: ";
+        in>>p.pretBrut;
+    }
+};
+
+class ProdusPerisabil:public Produs
+{
+private:
+    string dataExpirare;
+public:
+    float calcPret()
+    {
+        return this->pretBrut+(45*this->pretBrut)/100;
+    };
+    friend ostream& operator <<(ostream& out, const ProdusPerisabil& p)
+    {
+        out<<(Produs&)p;
+        out<<" "<<p.dataExpirare;
+        return out;
+    };
+    friend istream& operator >>(istream& in, const ProdusPerisabil& p)
+    {
+        in>>(Produs&)p;
+        cout<<"Dati data: ";
+        in>>p.dataExpirare;
+        return in;
+    };
+
+};
+
+class ProdusNeperisabil:public Produs
+{
+private:
+    int garantie;
+public:
+    float calcPret()
+    {
+        return this->pretBrut+(10*this->pretBrut)/100;
+    };
+    friend ostream& operator <<(ostram& out, const ProdusNeperisabil& p)
+    {
+        out<<(Produs&)p;
+        out<<" "<<p.garantie;
+        return out;
+    };
+    friend istream& operator >>(istream& in, const ProdusNeperisabil& p)
+    {
+        in>>(Produs&)p;
+        cout<<"Dati garantia: ";
+        in>>p.garantie;
+        return in;
+    };
+
+};
+
+class listaProdus{
+private:
+    Produs *p[100];
+public:
+};
+int main()
+{
+    /*
+    Produs *p = new ProdusPerisabil();
+    ProdusPerisabil a;
+    p = &a;
+    cin>>a;
+    cout<<p->calcPret();
+*/
+    /*Produs* p[10];
+    p[1] = new ProdusPerisabil();
+    p[2] = new ProdusNeperisabil();
+    ProdusPerisabil a;
+    ProdusNeperisabil b;
+    /*cin>>p[1];
+    cin>>p[2];
+    cout<<p[1].calcPret();
+    cout<<"\n"<<p[2].calcPret();
+    cin>>a;
+    cin>>b;
+    cout<<a.calcPret()<<"\n"<<b.calcPret();
+*/
+    int k=1;
+    int r=1;
+    int comanda,comanda2;
+    while(k==1)
+    {
+        cout<<"1 pt perisabil;\n";
+        cout<<"2 pt neperisabil ;\n";
+        cout<<"3 pt pretul unui produs;\n";
+        cout<<"4 pt a iesi;\n";
+        cin>>comanda;
+        switch(comanda){
+        case 1:
+            p[r] = new ProdusPerisabil[1];
+            cin>>*p[r];
+            r++;
+        case 2:
+            p[r] = new ProdusNeperisabil[1];
+            cin>>*p[r];
+            r++;
+        case 3:
+            cout<<"Introduceti nr prod pentru afisare: ";
+            cin>>comanda2;
+            cout<<*p[comanda2];
+            break;
+        case 4:
+            k=0;
+        default:
+            break;
+
+        }
+    }
+    return 0;
+}
