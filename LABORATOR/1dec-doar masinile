@@ -1,0 +1,131 @@
+#include <iostream>
+
+using namespace std;
+
+class Masini
+{
+private:
+    string marca;
+    string model;
+public:
+    Masini()
+        {
+            this->marca = "audi";
+            this->model = "misto";
+        }
+    void afisare(){cout<<"Marca: "<<marca<<" .model: "<<model;}
+
+
+};
+
+class MasiniUndercover:public virtual Masini{
+private:
+    int viteza;
+    int rezistenta;
+public:
+    MasiniUndercover():Masini(){
+    this->viteza=10;
+    this->rezistenta=20;
+    }
+
+    void afisare()
+    {
+        Masini::afisare();
+        cout<<" .viteza: "<<viteza<<" .rezistenta: "<<rezistenta<<"\n";
+
+    }
+
+
+};
+
+class MasiniInterventie:public virtual Masini{
+private:
+    int persoane;
+    bool arma;
+public:
+    MasiniInterventie():Masini()
+    {
+        persoane=5;
+        arma=true;
+    }
+
+    void afisare()
+    {
+        Masini::afisare();
+        cout<<" .Persoane: "<<persoane<<" .arma: "<<arma<<"\n";
+
+    }
+
+};
+
+class MasiniEmisieReceptie: public virtual Masini{
+private:
+    int acustic;
+    int video;
+public:
+    MasiniEmisieReceptie():Masini()
+    {
+        acustic=100;
+        video =400;
+    }
+
+    void afisare()
+    {
+        Masini::afisare();
+        cout<<" .Acustic: "<<acustic<<" .video: "<<video<<"\n";
+
+    }
+};
+
+
+
+
+class listaAutomobile{
+private:
+    Masini **m;
+    //static int k=0;
+public:
+    listaAutomobile& operator +(MasiniUndercover m1)
+    {
+        return *p;
+    }
+    /*Student& operator =(const Student& stud){
+
+        if(this!=&stud){
+
+                this->varsta=stud.varsta;
+                this->nrNote=stud.nrNote;
+
+                if(this->nume!=NULL)
+                    delete[] this->nume;
+
+                this->nume=new char[strlen(stud.nume)+1];
+                strcpy(this->nume, stud.nume);
+
+                if(this->note!=NULL)
+                   delete[] this->note;
+
+                this->note=new int[stud.nrNote];
+                for(int i=0; i<stud.nrNote;i++)
+                    this->note[i]=stud.note[i];
+
+        }
+        return *this;
+
+    }*/
+
+};
+
+int main()
+{
+
+    listaAutomobile *a;
+    MasiniUndercover m1;
+    MasiniInterventie m2;
+    MasiniEmisieReceptie m3;
+
+    a=a+m1;
+
+
+    return 0;
+}
