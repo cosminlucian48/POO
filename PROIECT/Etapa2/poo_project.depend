@@ -1,0 +1,10 @@
+# depslib dependency file v1.0
+1606732988 source:d:\facultate\anu2_sem1\poo_lab\project_poo\poo_project\main.cpp
+	<string.h>
+	<iostream>
+	<cstdlib>
+	<ctime>
+	<fstream>
+	<cmath>
+	<Windows.h >
+
