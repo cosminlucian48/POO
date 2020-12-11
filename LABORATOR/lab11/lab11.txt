@@ -1,0 +1,86 @@
+#include <iostream>
+#include <exception>
+#include <stdexcept>
+
+using namespace std;
+using std::runtime_error;
+
+double Fractie(int numarator, int numitor)
+{
+    if(numitor==0)
+        throw runtime_error("Numitorul este 0");
+    return static_cast<double>(numarator)/numitor;
+
+}
+
+class ExceptiaMea:public exception
+{
+public:
+    virtual const char* what() const throw()
+    {
+        return "exceptia mea";
+    }
+}exceptiaMea;
+
+void functiaMea(int n)
+{
+
+    if(n==10) throw 0;
+    if(n==0) throw 10;
+    if(n>0) throw 3.4;
+    if (n<0) throw 'C';
+}
+int main()
+{
+    /*try
+    {
+        cout<<Fractie(3,0);
+    }
+    catch(runtime_error e)
+    {
+        cout<<"A aparut o eroare";
+        cout<<endl<<e.what();
+    }
+
+
+    cout<<"orice";*/
+
+    /*try
+    {
+        throw exceptiaMea;
+    }
+    catch(ExceptiaMea e)
+    {
+        cout<<e.what();
+        cout<<"ceva in maiun";
+    }*/
+
+    try
+    {   cout<<"\nceva1\n";
+        //functiaMea(-1);
+         cout<<"\nceva2\n";
+         try
+         {
+             functiaMea(0);
+         }
+         catch(double)
+         {
+             cout<<"double";
+         }
+         catch(char)
+         {
+             cout<<"char";
+         }
+
+    }
+    catch(int)
+    {
+        cout<<"am primit int ";
+    }
+    /*catch(...)
+    {
+        cout<<"am prins alta exceptie";
+    }*/
+    cout<<"\nceva3\n";
+    return 0;
+}
