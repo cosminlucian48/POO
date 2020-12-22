@@ -1,0 +1,113 @@
+#include <iostream>
+
+using namespace std;
+class animal
+{
+public:
+    virtual void vorbeste()=0;
+};
+
+class caine: public animal
+{
+public:
+    void vorbeste()
+    {
+        cout<<"Ham Ham!";
+    }
+};
+
+class gaina: public animal
+{
+public:
+    void vorbeste()
+    {
+        cout<<"Piu Piu!";
+    }
+    void ou()
+    {
+        cout<<"ou verde";
+    }
+};
+
+class pisica: public animal
+{
+public:
+    void vorbeste()
+    {
+        cout<<"Miau Miau!";
+    }
+};
+
+class lup:public caine
+{
+public:
+    int ani=20;
+void vorbeste()
+{
+    cout<<"Auuu!";
+}
+void mananca()
+{
+    cout<<"Carne";
+}
+};
+int main()
+{
+    /*caine c;
+    c.vorbeste();*/
+
+    //upcasting copil -> parinte
+
+    animal * al = new caine;
+    //al->vorbeste();
+    caine c1;
+    pisica p1;
+    gaina g1;
+    lup l1;
+
+
+    animal** lista_animale = new animal*[4];
+
+    lista_animale[0] = &c1;
+    lista_animale[1] = &p1;
+    lista_animale[2] = &g1;
+    lista_animale[3] = &l1;
+
+    for(int i=0;i<4;i++)
+    {
+        lista_animale[i]->vorbeste();
+        cout<<"\n";
+    }
+
+    //downcasting parinte -> copil
+
+    lup* p;
+    caine* c = new caine;
+    
+    caine c2;
+    
+    p=dynamic_cast<lup*>(lista_animale[3]);
+    cout<<lista_animale[3]<<"\n"<<p<<"\n"<<p->ani;
+    cout<<"\n typeid  \n";
+
+    if(typeid(c2)==typeid(caine))
+    {
+        cout<<"este caine";
+    }
+
+    cout<<typeid(c).name();
+    cout<<"\n\n";
+    for(int i=0;i<4;i++)
+    {
+
+        if(typeid(*lista_animal[i])==typeid(gaina))
+            {
+                gaina* g=static_cast<gaina*>(lista_animal[i]);
+
+                g->ou();
+
+            }
+
+    }
+    return 0;
+}
