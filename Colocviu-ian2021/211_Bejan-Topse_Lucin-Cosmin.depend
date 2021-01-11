@@ -1,0 +1,7 @@
+# depslib dependency file v1.0
+1610365154 source:d:\facultate\anu2_sem1\poo_lab\colocviu\211_bejan-topse_lucin-cosmin\main.cpp
+	<iostream>
+	<vector>
+	<list>
+	<string.h>
+
