@@ -1,11 +1,10 @@
-Bejan-Topse Lucian-Cosmin gr 211.
+#RPG text based game
 
-Aplicatia este un joc text based rpg.
+<h2>Author:Bejan-Topse Lucian-Cosmin gr 211.</h2>
 
-Se pot vana monstrii pentru exp si loot, necesare invingerii bossilor. Un boss va aparea de fiecare data cand playerul ajunge la max EXP.
-Playerul poate alege sa infrunte bossul sau sa mai farmeze iteme pentru a fi mai puternic.
-In fiecare fight par, in care playerul infrunta un monstru de lvl maxim ( adica cu 2 levele peste levelul playerului ) va mai aparea un monstru (printr-un contructor de copiere) pe care trebuie sa-l infrunte. 
-Ca iteme exista 3 tipuri: potiuni de hp , care pot fi folosite doar in bossfighturi, iteme care dare 1 dmg sau iteme care dau 1 defense.
-Ca functionalitati: Fighturile cu mobi, fighturile cu bossi, itemele, Level up.
+In this game you can hunt monsters for EXP and LOOT and fight bosses for leveling up. A BOSS will spawn everytime the players gets maximum EXP.
+The PLAYER cand choose if he wants to fight the boss or to farm for better items.
+There are 3 items available: HP potions, usable only in boss fights, items and increase either your DMG by 1 or DEF by 1.
+
 
 
