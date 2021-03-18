@@ -1,6 +1,6 @@
-#RPG text based game
+# RPG text based game
 
-<h2>Author:Bejan-Topse Lucian-Cosmin gr 211.</h2>
+<h3>Author:Bejan-Topse Lucian-Cosmin gr 211.</h3>
 
 In this game you can hunt monsters for EXP and LOOT and fight bosses for leveling up. A BOSS will spawn everytime the players gets maximum EXP.
 The PLAYER cand choose if he wants to fight the boss or to farm for better items.
